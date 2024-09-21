@@ -7,7 +7,6 @@ const router = express.Router();
 const { createQuiz, getQuiz, updateQuiz, deleteQuiz, publishQuiz } = require('../Controllers/quiz')
 const isAuthenticated = require('../middleware/isAuth');
 
-
 // post // 
 router.post('/', isAuthenticated, [
     body('name')
@@ -37,11 +36,11 @@ router.post('/', isAuthenticated, [
 router.get('/:quizId', isAuthenticated, getQuiz)
 
 // put 
-router.put('/', isAuthenticated, updateQuiz)
+router.put('/update', isAuthenticated, updateQuiz)
 
 // delete// quizId 
-router.delete('/:quizId', isAuthenticated, deleteQuiz)
+router.delete('/:quizId/delete', isAuthenticated, deleteQuiz)
 
 //Publish // patch
-router.patch('/publish', isAuthenticated, publishQuiz)
+router.patch('/publish',isAuthenticated, publishQuiz)
 module.exports = router

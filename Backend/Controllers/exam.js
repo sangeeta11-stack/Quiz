@@ -26,9 +26,9 @@ const StartExam = async (req, res, next) => {
 const submitExam = async (req, res, next) => {
     try {
         const quizId = req.body.quizId;
-        const attempted_questions = req.body.attempted_questions
-        const quiz = await Quiz.findById(quizId, { answer: 1 })
-        const answer = quiz.answer
+        const attempted_questions = req.body.attempted_questions;
+        const quiz = await Quiz.findById(quizId, { answer: 1 });
+        const answer = quiz.answer;
 
         const userId = req.userId;
         const AllQuestions = Object.keys(answer);
@@ -38,20 +38,23 @@ const submitExam = async (req, res, next) => {
 
         for (let i = 0; i < total; i++) {
             let question_number = AllQuestions[i];
-            if (attempted_questions[question_number] && answer[question_number] == attempted_questions[question_number]) {
-                score = score + 1;
+
+            const attemptedAnswer = Number(attempted_questions[question_number]);
+            const correctAnswer = Number(answer[question_number]);
+            if (attemptedAnswer && attemptedAnswer === correctAnswer) {
+                score += 1;
             }
         }
 
-        // result
+        // Save result
         const result = new Result({ userId, quizId, score, total });
         const data = await result.save();
 
-        let returnResponse = { status: "success", message: "Submitted!", data: { total, score, resultId:data._id } };
-        res.status(200).send(returnResponse)
+        let returnResponse = { status: "success", message: "Submitted!", data: { total, score, resultId: data._id } };
+        res.status(200).send(returnResponse);
     } catch (error) {
-        next(error)
+        next(error);
     }
-}
+};
 
 module.exports = { StartExam, submitExam }

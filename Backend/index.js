@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const UserRouter = require('./Routes/user');
 const authRouter = require('./Routes/auth');
@@ -7,6 +8,7 @@ const err = require('./helper/projectErr');
 const quizRouter = require('./Routes/quiz');
 const examRouter = require('./Routes/exam');
 const reportRouter = require('./Routes/report')
+const ViewRouter = require('./Routes/viewQuizzes')
 
 require('dotenv').config();
 
@@ -20,6 +22,12 @@ const MONGO_URI = process.env.MONGO_URI || "";
 
 app.use(express.json());
 
+
+app.use(cors({
+    origin: '*', 
+}));
+
+  
 ///user to userRoutes
 app.use('/user', UserRouter);
 
@@ -28,6 +36,8 @@ app.use('/auth', authRouter);
 
 // redirect quiz
 app.use('/quiz', quizRouter);
+app.use('/view_quizzes', ViewRouter);
+
 
 // redirect exam
 app.use('/exam', examRouter);

@@ -34,16 +34,10 @@ const createQuiz = async (req, res, next) => {
 const getQuiz = async (req, res, next) => {
     try {
         const quizId = req.params.quizId;
-        const quiz = await Quiz.findById(quizId, { name: 1, question_list: 1, answer: 1, created_by: 1 });
+        const quiz = await Quiz.findById(quizId, { name: 1, question_list: 1, answer: 1, created_by: 1, is_published: 1 });
         if (!quiz) {
             const err = new ProjectErr("Quiz not Found");
             err.statusCode = 404;
-            throw err;
-        }
-
-        if (req.userId !== quiz.created_by.toString()){
-            const err = new ProjectErr("you are not authorized");
-            err.statusCode = 403;
             throw err;
         }
 
@@ -56,6 +50,7 @@ const getQuiz = async (req, res, next) => {
 
 const updateQuiz = async (req, res, next) => {
     try {
+              
         const quizId = req.body._id;
         const validationError =validationResult(req);
         if(!validationError.isEmpty()){
@@ -83,8 +78,9 @@ const updateQuiz = async (req, res, next) => {
         
         quiz.name = req.body.name;
         quiz.question_list = req.body.question_list,
-            quiz.answer = req.body.answer;
+        quiz.answer = req.body.answer;
         await quiz.save();
+        console.log(quiz)
         let returnResponse = { status: "success", message: "Quiz updated successfully", data: {} };
         res.status(201).send(returnResponse)
     } catch (error) {
@@ -123,7 +119,7 @@ const deleteQuiz = async (req, res, next) => {
 
 const publishQuiz = async (req, res, next) => {
     try {
-        const quizId = req.body.quizId;
+        const quizId = req.body.quizId;        
         const quiz = await Quiz.findById(quizId)
         if (!quiz) {
             const err = new ProjectErr("Quiz not Found");

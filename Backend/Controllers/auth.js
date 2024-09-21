@@ -70,7 +70,8 @@ const loginUser = async (req, res, next) => {
         }
         else {
             const token = jwt.sign({ userId: user._id }, SECRET_KEY, { expiresIn: '5h' });
-            ReturnResponse = { status: "success", message: "Successfully Login", data: { token } }
+            
+            ReturnResponse = { status: "success", message: "Successfully Login", data: { token:token , userId: user._id} }
             res.send(ReturnResponse)
         }
     } catch (error) {

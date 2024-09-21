@@ -1,0 +1,39 @@
+.hero {
+    width: 100%;
+    height: 20rem; 
+    background-size: cover; 
+    background-position: center; 
+  }
+
+@keyframes zoomInOut {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .animate-zoom-in-out {
+    animation: zoomInOut 2s ease-in-out;
+  }
+  
+  @keyframes slideInOut {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  .animate-slide {
+    animation: slideInOut 2s ease-in-out infinite;
+  }
+  
